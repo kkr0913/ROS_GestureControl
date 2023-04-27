@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 import rospy
 from std_msgs.msg import String
+from sensor_msgs.msg import Image
+from cv_bridge import CvBridge
 from cvzone.HandTrackingModule import HandDetector
 import cv2
 
@@ -8,6 +10,7 @@ cap = cv2.VideoCapture(0)
 cap.set(3, 1280)
 cap.set(4, 720)
 detector = HandDetector(detectionCon=0.5, maxHands=1)
+bridge = CvBridge()
 
 
 # Function to detect hand gestures
@@ -25,13 +28,13 @@ def get_gesture(lmList, fingers, totalFingers):
         return "Move Forward"
     elif totalFingers == 0 and joint_x > wrist_x:
         return "Move Backward"
-    elif totalFingers == 1 and fingers[0] == 1:
-        if thumb_x < joint_x and abs(thumb_y - joint_y) <= 30:
-            return "Move Left"
-        elif thumb_x > joint_x and abs(thumb_y - joint_y) <= 30:
-            return "Move Right"
-        else:
-            return "Stop"
+    # elif totalFingers == 1 and fingers[0] == 1:
+    #     if thumb_x < joint_x and abs(thumb_y - joint_y) <= 30:
+    #         return "Move Left"
+    #     elif thumb_x > joint_x and abs(thumb_y - joint_y) <= 30:
+    #         return "Move Right"
+    #     else:
+    #         return "Stop"
     elif totalFingers == 2 and fingers[1] * fingers[2] == 1:
         if index_x < middle_x:
             return "Turn Left"
@@ -43,9 +46,10 @@ def get_gesture(lmList, fingers, totalFingers):
 
 # Function to publish gesture commands
 def pub_gesture():
-    pub = rospy.Publisher('/gesture', String, queue_size=10)  # publisher for gesture command (String)
-    rospy.init_node('cam', anonymous=True)                    # initialize node
-    rate = rospy.Rate(10)                                     # 10Hz rate
+    pub1 = rospy.Publisher('/gesture', String, queue_size=10)  # publisher for gesture command (String)
+    pub2 = rospy.Publisher('/frame', Image, queue_size=10)     # publisher for video frame (Image)
+    rospy.init_node('cam', anonymous=True)                     # initialize node
+    rate = rospy.Rate(10)                                      # 10Hz rate
 
     while not rospy.is_shutdown():
         ret, frame = cap.read()
@@ -63,11 +67,13 @@ def pub_gesture():
         # Display
         cv2.putText(frame, f'Fingers: {totalFingers}', (20, 120), cv2.FONT_HERSHEY_PLAIN, 2, (255, 0, 0), 3)
         cv2.putText(frame, gesture, (20, 70), cv2.FONT_HERSHEY_PLAIN, 3, (0, 0, 255), 3)
-        cv2.imshow("Image", frame)
+        # cv2.imshow("Image", frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-
-        pub.publish(gesture)
+        
+        imgmsg = bridge.cv2_to_imgmsg(frame, "bgr8")   # convert cv2 image to ROS msg
+        pub2.publish(imgmsg)                           # publish video frame
+        pub1.publish(gesture)                          # publish gesture command
         rate.sleep()
   
     cap.release()
