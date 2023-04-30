@@ -20,10 +20,10 @@ def command():
     while not rospy.is_shutdown():
         twist = Twist()
         if cmd == "Move Forward":
-            twist.linear.x = 1.0; twist.linear.y = 0.0; twist.linear.z = 0.0
+            twist.linear.x = 0.5; twist.linear.y = 0.0; twist.linear.z = 0.0
             twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = 0.0
         elif cmd == "Move Backward":
-            twist.linear.x = -1.0; twist.linear.y = 0.0; twist.linear.z = 0.0
+            twist.linear.x = -0.5; twist.linear.y = 0.0; twist.linear.z = 0.0
             twist.angular.x = 0.0; twist.angular.y = 0.0; twist.angular.z = 0.0
         elif cmd == "Turn Left":
             twist.linear.x = 0.0; twist.linear.y = 0.0; twist.linear.z = 0.0

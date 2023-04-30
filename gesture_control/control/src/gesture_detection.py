@@ -46,8 +46,8 @@ def get_gesture(lmList, fingers, totalFingers):
 
 # Function to publish gesture commands
 def pub_gesture():
-    pub1 = rospy.Publisher('/gesture', String, queue_size=10)  # publisher for gesture command (String)
-    pub2 = rospy.Publisher('/frame', Image, queue_size=10)     # publisher for video frame (Image)
+    pub1 = rospy.Publisher('/frame', Image, queue_size=10)     # publisher for video frame (Image)
+    pub2 = rospy.Publisher('/gesture', String, queue_size=10)  # publisher for gesture command (String)
     rospy.init_node('cam', anonymous=True)                     # initialize node
     rate = rospy.Rate(10)                                      # 10Hz rate
 
@@ -72,8 +72,8 @@ def pub_gesture():
             break
         
         imgmsg = bridge.cv2_to_imgmsg(frame, "bgr8")   # convert cv2 image to ROS msg
-        pub2.publish(imgmsg)                           # publish video frame
-        pub1.publish(gesture)                          # publish gesture command
+        pub1.publish(imgmsg)                           # publish video frame
+        pub2.publish(gesture)                          # publish gesture command
         rate.sleep()
   
     cap.release()
