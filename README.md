@@ -42,7 +42,7 @@ cd ~/catkin_ws && catkin_make
 roslaunch control main.launch
 ```
 
-<br/><br/><br/><br/>
+<br/><br/><br/>
 
 <p float="left">
   <img src="/image/screenshot.png" height="300" />
@@ -50,3 +50,8 @@ roslaunch control main.launch
   <img src="/image/hand.png" height="300" /> 
 </p>
 
+<br/><br/>
+
+### Reference ###
+[https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#gazebo-simulation](https://emanual.robotis.com/docs/en/platform/turtlebot3/simulation/#gazebo-simulation)  
+[https://automaticaddison.com/how-to-launch-the-turtlebot3-simulation-with-ros/](https://automaticaddison.com/how-to-launch-the-turtlebot3-simulation-with-ros/)
