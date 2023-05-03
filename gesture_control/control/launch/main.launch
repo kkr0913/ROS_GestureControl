@@ -7,6 +7,7 @@
   <include file="$(find control)/launch/rviz.launch" />
 
   <node pkg="control" type="gesture_detection.py" name="cam" output="screen" />
+  <node pkg="control" type="lidar_data.py" name="lidar" output="screen" />
   <node pkg="control" type="control_turtlebot.py" name="command" output="screen" />
 
 </launch>
