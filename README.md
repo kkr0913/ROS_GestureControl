@@ -1,4 +1,4 @@
-# Control TurtleBot3 with Hand Gesture Detection #
+# Control TurtleBot3 in Gazebo with Hand Gesture Detection #
 
 
 ### Requirements (Tested Version) ###
