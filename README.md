@@ -41,3 +41,12 @@ cd ~/catkin_ws && catkin_make
 ```
 roslaunch control main.launch
 ```
+
+<br/><br/><br/><br/>
+
+<p float="left">
+  <img src="/image/screenshot.png" height="300" />
+  &nbsp;
+  <img src="/image/hand.png" height="300" /> 
+</p>
+
